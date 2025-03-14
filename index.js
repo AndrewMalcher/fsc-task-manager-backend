@@ -7,12 +7,28 @@ const connectToDatabase = require("./src/database/mongoose.database");
 dotenv.config();
 
 const app = express();
+app.use(express.json());
 
 connectToDatabase();
 
 app.get("/tasks", async (req, res) => {
-    const tasks = await TaskModel.find({});
-    res.status(200).send(tasks);
+    try {
+        const tasks = await TaskModel.find({});
+        res.status(200).send(tasks);
+    } catch (error) {
+        res.status(500).send({
+            message: "Erro ao buscar tarefas",
+            error: error.message,
+        });
+    }
+});
+
+app.post("/tasks", async (req, res) => {
+    const newTask = new TaskModel(req.body);
+
+    await newTask.save();
+
+    res.status(201).send(newTask);
 });
 
 app.listen(8000, () => console.log("listening on port 8000!"));

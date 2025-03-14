@@ -8,12 +8,12 @@ const TaskSchema = Schema({
     },
     description: {
         type: String,
-        required: true,
+        required: false,
         trim: true,
     },
     createdDate: {
         type: Date,
-        required: true,
+        required: false,
         trim: true,
     },
     isCompleted: {
