@@ -7,15 +7,9 @@ dotenv.config();
 
 const app = express();
 
-// Middleware para analisar o corpo das requisições em JSON
-app.use(express.json());
+connectToDatabase();
 
-connectToDatabase().catch((err) => {
-    console.error("Erro ao conectar ao banco de dados:", err);
-    process.exit(1);
-});
-
-app.get("/", (req, res) => {
+app.get("/tasks", (req, res) => {
     const tasks = [
         {
             description: "Terminar o gerenciador de tarefas!",
